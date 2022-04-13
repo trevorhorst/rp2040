@@ -1,11 +1,10 @@
-#include <stdio.h>
-#include "pico/stdlib.h"
+#include "rp2040/application.h"
 
 int main()
 {
     stdio_init_all();
 
-    while(true) {
-        printf("Hello World!\n");
-    }
+    Application app;
+
+    return app.run();
 }

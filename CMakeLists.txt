@@ -7,33 +7,36 @@ include(pico-sdk/tools/CMakeLists.txt)
 # set(CMAKE_CXX_STANDARD 17)
 
 project(
-    quark
+    rp2040
     VERSION 0.0.1
     LANGUAGES C CXX ASM
     DESCRIPTION "RP2040 Zero Waveshare")
 
 pico_sdk_init()
 
-set( QUARK_INCLUDE_DIR include/quark )
+set( QUARK_INCLUDE_DIR include/${PROJECT_NAME} )
 set( QUARK_SOURCE_DIR src )
 
 add_executable(
     ${PROJECT_NAME}
     main.cpp
-    # ${QUARK_INCLUDE_DIR}/app/application.h
+    ${QUARK_INCLUDE_DIR}/application.h
     # ${QUARK_INCLUDE_DIR}/drivers/ssd1306.h
-    # ${QUARK_INCLUDE_DIR}/drivers/ws2812.hpp
+    ${QUARK_INCLUDE_DIR}/drivers/ws2812.h
     # ${QUARK_INCLUDE_DIR}/font/font.h
 
-    # ${QUARK_SOURCE_DIR}/app/application.cpp
+    ${QUARK_SOURCE_DIR}/application.cpp
     # ${QUARK_SOURCE_DIR}/drivers/ssd1306.cpp
-    # ${QUARK_SOURCE_DIR}/drivers/ws2812.cpp
+    ${QUARK_SOURCE_DIR}/drivers/ws2812.cpp
     # ${QUARK_SOURCE_DIR}/font/font.cpp
 )
 
-# pico_generate_pio_header(
-#     ${PROJECT_NAME} ${CMAKE_CURRENT_LIST_DIR}/ws2812.pio
-#     UTPUT_DIR ${CMAKE_CURRENT_LIST_DIR}/generated)
+pico_generate_pio_header(
+    ${PROJECT_NAME} 
+        ${CMAKE_CURRENT_LIST_DIR}/pio/ws2812.pio
+    UTPUT_DIR 
+        ${CMAKE_CURRENT_LIST_DIR}/generated
+)
 
 # enable usb output, disable uart output
 pico_enable_stdio_usb(${PROJECT_NAME} 1)
@@ -45,7 +48,7 @@ target_link_libraries(
     PUBLIC
         pico_stdlib
         # pico_binary_info
-        # hardware_pio
+        hardware_pio
         # hardware_i2c
 )
 
