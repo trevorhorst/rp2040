@@ -14,21 +14,21 @@ project(
 
 pico_sdk_init()
 
-set( QUARK_INCLUDE_DIR include/${PROJECT_NAME} )
-set( QUARK_SOURCE_DIR src )
+set( RP2040_INCLUDE_DIR include/${PROJECT_NAME} )
+set( RP2040_SOURCE_DIR src )
 
 add_executable(
     ${PROJECT_NAME}
     main.cpp
-    ${QUARK_INCLUDE_DIR}/application.h
-    # ${QUARK_INCLUDE_DIR}/drivers/ssd1306.h
-    ${QUARK_INCLUDE_DIR}/drivers/ws2812.h
-    # ${QUARK_INCLUDE_DIR}/font/font.h
+    ${RP2040_INCLUDE_DIR}/application.h
+    ${RP2040_INCLUDE_DIR}/drivers/ssd1306.h
+    ${RP2040_INCLUDE_DIR}/drivers/ws2812.h
+    # ${RP2040_INCLUDE_DIR}/font/font.h
 
-    ${QUARK_SOURCE_DIR}/application.cpp
-    # ${QUARK_SOURCE_DIR}/drivers/ssd1306.cpp
-    ${QUARK_SOURCE_DIR}/drivers/ws2812.cpp
-    # ${QUARK_SOURCE_DIR}/font/font.cpp
+    ${RP2040_SOURCE_DIR}/application.cpp
+    ${RP2040_SOURCE_DIR}/drivers/ssd1306.cpp
+    ${RP2040_SOURCE_DIR}/drivers/ws2812.cpp
+    # ${RP2040_SOURCE_DIR}/font/font.cpp
 )
 
 pico_generate_pio_header(
@@ -49,7 +49,7 @@ target_link_libraries(
         pico_stdlib
         # pico_binary_info
         hardware_pio
-        # hardware_i2c
+        hardware_i2c
 )
 
 # Specifies include directories to use when compiling a given target
