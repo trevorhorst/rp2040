@@ -94,6 +94,19 @@ void Application::initializeDisplay()
         mDisplay.fill_screen(0x00);
         sleep_ms(500);
     }
+
+    mDisplay.write_buffer(symbols['H'], 5);
+    mDisplay.write_buffer(symbols['e'], 5);
+    mDisplay.write_buffer(symbols['l'], 5);
+    mDisplay.write_buffer(symbols['l'], 5);
+    mDisplay.write_buffer(symbols['o'], 5);
+    mDisplay.write_buffer(symbols[' '], 5);
+    mDisplay.write_buffer(symbols['W'], 5);
+    mDisplay.write_buffer(symbols['o'], 5);
+    mDisplay.write_buffer(symbols['r'], 5);
+    mDisplay.write_buffer(symbols['l'], 5);
+    mDisplay.write_buffer(symbols['d'], 5);
+    mDisplay.write_buffer(symbols['!'], 5);
 }
 
 void Application::i2cBusScan(i2c_inst_t *bus)

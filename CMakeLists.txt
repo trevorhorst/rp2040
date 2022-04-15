@@ -23,12 +23,12 @@ add_executable(
     ${RP2040_INCLUDE_DIR}/application.h
     ${RP2040_INCLUDE_DIR}/drivers/ssd1306.h
     ${RP2040_INCLUDE_DIR}/drivers/ws2812.h
-    # ${RP2040_INCLUDE_DIR}/font/font.h
+    ${RP2040_INCLUDE_DIR}/font/font.h
 
     ${RP2040_SOURCE_DIR}/application.cpp
     ${RP2040_SOURCE_DIR}/drivers/ssd1306.cpp
     ${RP2040_SOURCE_DIR}/drivers/ws2812.cpp
-    # ${RP2040_SOURCE_DIR}/font/font.cpp
+    ${RP2040_SOURCE_DIR}/font/font.cpp
 )
 
 pico_generate_pio_header(

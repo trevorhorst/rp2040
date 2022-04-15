@@ -60,52 +60,55 @@ void SSD1306::initialize()
 
     write(OLED_SET_DISP | 0x00); // set display off
 
+    /* timing and driving scheme */
+    write(OLED_SET_DISP_CLK_DIV); // set display clock divide ratio
+    write(0x80); // div ratio of 1, standard freq
+
+    write(OLED_SET_MUX_RATIO); // set multiplex ratio
+    write(OLED_HEIGHT - 1); // our display is only 32 pixels high
+
+    write(OLED_SET_DISP_OFFSET); // set display offset
+    write(0x00); // no offset
+
+    /* resolution and layout */
+    write(OLED_SET_DISP_START_LINE); // set display start line to 0
+
+    write(OLED_SET_CHARGE_PUMP); // set charge pump
+    write(0x14); // Vcc internally generated on our board
+
     /* memory mapping 
     */
     write(OLED_SET_MEM_ADDR); // set memory address mode
     write(0x00); // horizontal addressing mode
 
-    /* resolution and layout */
-    write(OLED_SET_DISP_START_LINE); // set display start line to 0
-
     write(OLED_SET_SEG_REMAP | 0x01); // set segment re-map
     // column address 127 is mapped to SEG0
-
-    write(OLED_SET_MUX_RATIO); // set multiplex ratio
-    write(OLED_HEIGHT - 1); // our display is only 32 pixels high
 
     write(OLED_SET_COM_OUT_DIR | 0x08); // set COM (common) output scan direction
     // scan from bottom up, COM[N-1] to COM0
 
-    write(OLED_SET_DISP_OFFSET); // set display offset
-    write(0x00); // no offset
-
     write(OLED_SET_COM_PIN_CFG); // set COM (common) pins hardware configuration
-    write(0x02); // manufacturer magic number
+    write(0x12); // manufacturer magic number
 
-    /* timing and driving scheme */
-    write(OLED_SET_DISP_CLK_DIV); // set display clock divide ratio
-    write(0x80); // div ratio of 1, standard freq
+    /* display */
+    write(OLED_SET_CONTRAST); // set contrast control
+    write(0xCF);
 
     write(OLED_SET_PRECHARGE); // set pre-charge period
     write(0xF1); // Vcc internally generated on our board
 
     write(OLED_SET_VCOM_DESEL); // set VCOMH deselect level
-    write(0x30); // 0.83xVcc
-
-    /* display */
-    write(OLED_SET_CONTRAST); // set contrast control
-    write(0xFF);
+    write(0x40); // 0.83xVcc
 
     write(OLED_SET_ENTIRE_ON); // set entire display on to follow RAM content
 
     write(OLED_SET_NORM_INV); // set normal (not inverted) display
 
-    write(OLED_SET_CHARGE_PUMP); // set charge pump
-    write(0x14); // Vcc internally generated on our board
-
-    write(OLED_SET_SCROLL | 0x00); // deactivate horizontal scrolling if set
+    // write(OLED_SET_SCROLL | 0x00); // deactivate horizontal scrolling if set
     // this is necessary as memory writes will corrupt if scrolling was enabled
+    write(0x00);
+    write(0x10);
+    write(0x40);
 
     write(OLED_SET_DISP | 0x01); // turn display on
 }
@@ -117,7 +120,7 @@ void SSD1306::ignore_ram(bool enable)
         write(0xA5);
     } else {
         // Follow RAM
-        write(0xA4);
+        write(0x7F);
     }
 }
 
