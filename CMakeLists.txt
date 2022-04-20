@@ -3,8 +3,19 @@ cmake_minimum_required(VERSION 3.13)
 include(pico-sdk/pico_sdk_init.cmake)
 include(pico-sdk/tools/CMakeLists.txt)
 
-# set(CMAKE_C_STANDARD 11)
-# set(CMAKE_CXX_STANDARD 17)
+# Creates a portable way to implement the __FILENAME__ macro
+# https://stackoverflow.com/questions/1706346/file-macro-manipulation-handling-at-compile-time
+function(define_file_basename_for_sources targetname)
+    get_target_property(source_files "${targetname}" SOURCES)
+    foreach(sourcefile ${source_files})
+        # Add the FILE_BASENAME=filename compile definition to the list.
+        get_filename_component(basename "${sourcefile}" NAME)
+        # Set the updated compile definitions on the source file.
+        set_property(
+            SOURCE "${sourcefile}" APPEND
+            PROPERTY COMPILE_DEFINITIONS "__FILENAME__=\"${basename}\"")
+    endforeach()
+endfunction()
 
 project(
     rp2040
@@ -24,11 +35,13 @@ add_executable(
     ${RP2040_INCLUDE_DIR}/drivers/ssd1306.h
     ${RP2040_INCLUDE_DIR}/drivers/ws2812.h
     ${RP2040_INCLUDE_DIR}/font/font.h
+    ${RP2040_INCLUDE_DIR}/logger.h
 
     ${RP2040_SOURCE_DIR}/application.cpp
     ${RP2040_SOURCE_DIR}/drivers/ssd1306.cpp
     ${RP2040_SOURCE_DIR}/drivers/ws2812.cpp
     ${RP2040_SOURCE_DIR}/font/font.cpp
+    ${RP2040_SOURCE_DIR}/logger.cpp
 )
 
 pico_generate_pio_header(
@@ -61,6 +74,9 @@ target_include_directories(
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
     )
+
+# Create the __FILENAME__ macro for use with the logger
+define_file_basename_for_sources(${PROJECT_NAME})
 
 # create map/bin/hex/uf2 file in addition to ELF.
 pico_add_extra_outputs(

@@ -60,6 +60,7 @@ public:
 
     static void fill(uint8_t buf[], uint8_t fill);
     static void calc_render_area_buflen(struct RenderArea *area);
+    void write_data(const uint8_t *buf, int length);
     void write_buffer(const uint8_t buf[], int buflen);
 
 private:

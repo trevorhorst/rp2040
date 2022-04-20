@@ -48,7 +48,7 @@ int32_t Application::run()
             incrementer = -1;
         }
 
-        mNeopixel.fill( WS2812::RGB(0, count, 0));
+        mNeopixel.fill(WS2812::RGB(0, count, 0));
         mNeopixel.show();
         sleep_ms(heartbeat_ms / neopixel_max_brightness);
     }
@@ -62,30 +62,32 @@ int32_t Application::run()
  */
 void Application::initialize()
 {
+    log_set_level(LOG_TRACE);
+
     mNeopixel.fill(WS2812::RGB(1, 0, 0));
     mNeopixel.show();
     sleep_ms(1000);
 
-    printf("Booting...\n");
+    LOG_TRACE("Booting...\n");
     initializeI2C();
     initializeDisplay();
 }
 
 void Application::initializeI2C()
 {
-    printf("Initializing I2C...\n");
+    LOG_TRACE("Initializing I2C...\n");
     i2c_init(mI2C1, I2C_BUS_SPEED_KHZ(1000));
     gpio_set_function(i2c1_sda_pin, GPIO_FUNC_I2C);
     gpio_set_function(i2c1_scl_pin, GPIO_FUNC_I2C);
     gpio_pull_up(i2c1_sda_pin);
     gpio_pull_up(i2c1_scl_pin);
 
-    i2cBusScan(mI2C1);
+    // i2cBusScan(mI2C1);
 }
 
 void Application::initializeDisplay()
 {
-    printf("Initializing display...\n");
+    LOG_TRACE("Initializing display...\n");
     mDisplay.initialize();
 
     for(int i = 0; i < 3; i++) {
@@ -95,18 +97,18 @@ void Application::initializeDisplay()
         sleep_ms(500);
     }
 
-    mDisplay.write_buffer(symbols['H'], 5);
-    mDisplay.write_buffer(symbols['e'], 5);
-    mDisplay.write_buffer(symbols['l'], 5);
-    mDisplay.write_buffer(symbols['l'], 5);
-    mDisplay.write_buffer(symbols['o'], 5);
-    mDisplay.write_buffer(symbols[' '], 5);
-    mDisplay.write_buffer(symbols['W'], 5);
-    mDisplay.write_buffer(symbols['o'], 5);
-    mDisplay.write_buffer(symbols['r'], 5);
-    mDisplay.write_buffer(symbols['l'], 5);
-    mDisplay.write_buffer(symbols['d'], 5);
-    mDisplay.write_buffer(symbols['!'], 5);
+    mDisplay.write_buffer(symbols[static_cast<uint8_t>('H')], 5);
+    mDisplay.write_buffer(symbols[static_cast<uint8_t>('e')], 5);
+    mDisplay.write_buffer(symbols[static_cast<uint8_t>('l')], 5);
+    mDisplay.write_buffer(symbols[static_cast<uint8_t>('l')], 5);
+    mDisplay.write_buffer(symbols[static_cast<uint8_t>('o')], 5);
+    mDisplay.write_buffer(symbols[static_cast<uint8_t>(' ')], 5);
+    mDisplay.write_buffer(symbols[static_cast<uint8_t>('W')], 5);
+    mDisplay.write_buffer(symbols[static_cast<uint8_t>('o')], 5);
+    mDisplay.write_buffer(symbols[static_cast<uint8_t>('r')], 5);
+    mDisplay.write_buffer(symbols[static_cast<uint8_t>('l')], 5);
+    mDisplay.write_buffer(symbols[static_cast<uint8_t>('d')], 5);
+    mDisplay.write_buffer(symbols[static_cast<uint8_t>('!')], 5);
 }
 
 void Application::i2cBusScan(i2c_inst_t *bus)

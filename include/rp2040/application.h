@@ -8,6 +8,7 @@
 #include "rp2040/drivers/ws2812.h"
 #include "rp2040/drivers/ssd1306.h"
 #include "rp2040/font/font.h"
+#include "rp2040/logger.h"
 
 class Application
 {
