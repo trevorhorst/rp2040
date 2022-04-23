@@ -9,6 +9,8 @@ const uint32_t Application::i2c1_scl_pin  = 27;
 
 const uint32_t Application::heartbeat_ms = 1000;
 
+const uint8_t Application::ssd1306_display_addr = 0x3D;
+
 #define I2C_BUS_SPEED_KHZ(x) x * 1000
 
 /**
@@ -24,7 +26,7 @@ Application::Application()
         0,
         WS2812::DataFormat::FORMAT_GRB
     )
-    , mDisplay(mI2C1)
+    , mDisplay(mI2C1, ssd1306_display_addr)
 {
     initialize();
 }
@@ -71,6 +73,7 @@ void Application::initialize()
     LOG_TRACE("Booting...\n");
     initializeI2C();
     initializeDisplay();
+    initializeConsole();
 }
 
 void Application::initializeI2C()
@@ -82,12 +85,13 @@ void Application::initializeI2C()
     gpio_pull_up(i2c1_sda_pin);
     gpio_pull_up(i2c1_scl_pin);
 
-    // i2cBusScan(mI2C1);
+    i2cBusScan(mI2C1);
 }
 
 void Application::initializeDisplay()
 {
     LOG_TRACE("Initializing display...\n");
+    LOG_TRACE("Display @ 0x%02X\n", ssd1306_display_addr);
     mDisplay.initialize();
 
     for(int i = 0; i < 3; i++) {
@@ -109,6 +113,11 @@ void Application::initializeDisplay()
     mDisplay.write_buffer(symbols[static_cast<uint8_t>('l')], 5);
     mDisplay.write_buffer(symbols[static_cast<uint8_t>('d')], 5);
     mDisplay.write_buffer(symbols[static_cast<uint8_t>('!')], 5);
+}
+
+void Application::initializeConsole()
+{
+    multicore_launch_core1(&console_run);
 }
 
 void Application::i2cBusScan(i2c_inst_t *bus)

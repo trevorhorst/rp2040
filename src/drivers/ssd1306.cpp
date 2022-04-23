@@ -16,15 +16,16 @@ void SSD1306::calc_render_area_buflen(struct RenderArea *area)
 /**
  * @brief Construct a new SSD1306 object
  */
-SSD1306::SSD1306(i2c_inst_t *bus)
-    : mBus(bus)
+SSD1306::SSD1306(i2c_inst_t *bus, uint8_t address) :
+    mBus(bus),
+    mAddress(address)
 {
 }
 
 void SSD1306::write(uint8_t data)
 {
     uint8_t buf[2] = {0x80, data};
-    i2c_write_blocking(mBus, (OLED_ADDR & OLED_WRITE_MODE), buf, 2, false);
+    i2c_write_blocking(mBus, (mAddress & OLED_WRITE_MODE), buf, 2, false);
 }
 
 void SSD1306::write_buffer(const uint8_t buffer[], int bufferLen)
@@ -45,7 +46,7 @@ void SSD1306::write_buffer(const uint8_t buffer[], int bufferLen)
     }
     // Co = 0, D/C = 1 => the driver expects data to be written to RAM
     temp_buf[0] = 0x40;
-    i2c_write_blocking(mBus, (OLED_ADDR & OLED_WRITE_MODE), temp_buf, bufferLen + 1, false);
+    i2c_write_blocking(mBus, (mAddress & OLED_WRITE_MODE), temp_buf, bufferLen + 1, false);
 
     free(temp_buf);
 }

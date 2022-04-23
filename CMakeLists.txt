@@ -32,12 +32,14 @@ add_executable(
     ${PROJECT_NAME}
     main.cpp
     ${RP2040_INCLUDE_DIR}/application.h
+    ${RP2040_INCLUDE_DIR}/console.h
     ${RP2040_INCLUDE_DIR}/drivers/ssd1306.h
     ${RP2040_INCLUDE_DIR}/drivers/ws2812.h
     ${RP2040_INCLUDE_DIR}/font/font.h
     ${RP2040_INCLUDE_DIR}/logger.h
 
     ${RP2040_SOURCE_DIR}/application.cpp
+    ${RP2040_SOURCE_DIR}/console.cpp
     ${RP2040_SOURCE_DIR}/drivers/ssd1306.cpp
     ${RP2040_SOURCE_DIR}/drivers/ws2812.cpp
     ${RP2040_SOURCE_DIR}/font/font.cpp
@@ -60,6 +62,7 @@ target_link_libraries(
     ${PROJECT_NAME} 
     PUBLIC
         pico_stdlib
+        pico_multicore
         # pico_binary_info
         hardware_pio
         hardware_i2c

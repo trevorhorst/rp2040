@@ -28,7 +28,7 @@
 #define OLED_SET_HORIZ_SCROLL _u(0x26)
 #define OLED_SET_SCROLL _u(0x2E)
 
-#define OLED_ADDR _u(0x3C)
+#define OLED_ADDR _u(0x3D)
 #define OLED_HEIGHT _u(64)
 #define OLED_WIDTH _u(128)
 #define OLED_PAGE_HEIGHT _u(8)
@@ -50,7 +50,7 @@ public:
         int buflen;
     };
 
-    SSD1306(i2c_inst_t *bus);
+    SSD1306(i2c_inst_t *bus, uint8_t address);
 
     void initialize();
     void ignore_ram(bool enable);
@@ -65,6 +65,7 @@ public:
 
 private:
     i2c_inst_t *mBus;
+    uint8_t mAddress;
 
     void write(uint8_t data);
 };

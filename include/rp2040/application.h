@@ -4,7 +4,9 @@
 #include <stdio.h>
 
 #include "pico/stdlib.h"
+#include "pico/multicore.h"
 
+#include "rp2040/console.h"
 #include "rp2040/drivers/ws2812.h"
 #include "rp2040/drivers/ssd1306.h"
 #include "rp2040/font/font.h"
@@ -19,6 +21,8 @@ class Application
     static const uint32_t i2c1_scl_pin;
     static const uint32_t heartbeat_ms;
 
+    static const uint8_t ssd1306_display_addr;
+
 public:
     Application();
 
@@ -26,6 +30,7 @@ public:
     void initialize();
     void initializeI2C();
     void initializeDisplay();
+    void initializeConsole();
 
     bool reserved_addr(uint8_t addr)
     {
