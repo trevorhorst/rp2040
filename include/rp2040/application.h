@@ -6,6 +6,10 @@
 #include "pico/stdlib.h"
 #include "pico/multicore.h"
 
+#include "rp2040/command/command_handler.h"
+#include "rp2040/command/command_help.h"
+#include "rp2040/command/command_pixel.h"
+
 #include "rp2040/console.h"
 #include "rp2040/drivers/ws2812.h"
 #include "rp2040/drivers/ssd1306.h"
@@ -43,6 +47,10 @@ private:
     i2c_inst_t *mI2C1;
     WS2812 mNeopixel;
     SSD1306 mDisplay;
+
+    CommandHandler mHandler;
+    CommandHelp mCmdHelp;
+    CommandPixel mCmdPixel;
 };
 
 #endif // RP2040_APPLICATION_H

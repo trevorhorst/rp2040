@@ -74,6 +74,7 @@ void Application::initialize()
     initializeI2C();
     initializeDisplay();
     initializeConsole();
+
 }
 
 void Application::initializeI2C()
@@ -117,6 +118,10 @@ void Application::initializeDisplay()
 
 void Application::initializeConsole()
 {
+    mCmdHelp.addControlObject(&mHandler);
+    mHandler.addCommand(&mCmdHelp);
+
+    console_set_command_handler(&mHandler);
     multicore_launch_core1(&console_run);
 }
 

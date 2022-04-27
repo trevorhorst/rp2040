@@ -4,7 +4,10 @@
 #include "pico/types.h"
 #include "hardware/pio.h"
 
-class WS2812 
+#include "rp2040/control/control_template.h"
+
+class WS2812 :
+        public ControlTemplate<WS2812>
 {
     public:
         enum DataByte {
