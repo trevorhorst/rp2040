@@ -89,7 +89,7 @@ void console_evaluate(char *input, const size_t &length)
 
     if( tokenized.empty() ) {
         // The input is empty
-        LOG_TRACE("\n");
+        // puts("");
     } else if( tokenized.at( 0 ) == "quit" ) {
         // The command is to quit, so lets quit. Nothing fancy here.
         // console->quit();
@@ -108,7 +108,7 @@ void console_evaluate(char *input, const size_t &length)
                 auto t = it;
                 it++;
                 if( it == tokenized.end() ) {
-                    LOG_WARN( "Parameter mismatch" );
+                    LOG_WARN( "Parameter mismatch\n" );
                     return;
                 } else {
                     // Parse the parameter
@@ -173,12 +173,25 @@ void console_run()
 
     printf(">");
 
+    bool sequence = false;
+    uint32_t sequenceCount = 0;
+
     while(true) {
         int input = getchar_timeout_us(50);
         if(input == PICO_ERROR_TIMEOUT) {
             // This is okay, just loop back around
+        } else if(input == '\x1b' || sequence == true) {
+            if(sequenceCount >= 2) {
+                // LOG_TRACE("Arrow Key\n");
+                sequence = false;
+                sequenceCount = 0;
+            } else {
+                sequence = true;
+                sequenceCount++;
+            }
         } else if(input == '\r') {
             // Evaluate the input string
+            printf("\r>%s\n", console_input);
             console_input[console_input_count] = 0;
             console_evaluate(console_input, sizeof(console_input));
             // Once the input has been handled, flush the container
@@ -190,10 +203,13 @@ void console_run()
                 console_input_count--;
                 console_input[console_input_count] = '\0';
             }
+            printf("\r>%s ", console_input);
+            printf("\r>%s", console_input);
         } else {
             // LOG_TRACE("Received: 0x%02X\n", input);
             console_input[console_input_count] = input;
             console_input_count++;
+            printf("\r>%s", console_input);
         }
     }
 }

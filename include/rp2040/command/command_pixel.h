@@ -5,12 +5,18 @@
 #include "rp2040/drivers/ws2812.h"
 
 #define COMMAND_NAME_PIXEL  "pixel"
+#define COMMAND_NAME_RGB    "rgb"
 
 class CommandPixel :
         public CommandTemplate<WS2812>
 {
 public:
     CommandPixel();
+
+    int32_t setRgb(cJSON *json);
+
+protected:
+    int32_t setup() override;
 
 };
 

@@ -50,8 +50,8 @@ int32_t Application::run()
             incrementer = -1;
         }
 
-        mNeopixel.fill(WS2812::RGB(0, count, 0));
-        mNeopixel.show();
+        // mNeopixel.fill(WS2812::RGB(0, count, 0));
+        // mNeopixel.show();
         sleep_ms(heartbeat_ms / neopixel_max_brightness);
     }
 
@@ -119,7 +119,10 @@ void Application::initializeDisplay()
 void Application::initializeConsole()
 {
     mCmdHelp.addControlObject(&mHandler);
+    mCmdPixel.addControlObject(&mNeopixel);
+
     mHandler.addCommand(&mCmdHelp);
+    mHandler.addCommand(&mCmdPixel);
 
     console_set_command_handler(&mHandler);
     multicore_launch_core1(&console_run);
