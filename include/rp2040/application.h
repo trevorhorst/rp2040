@@ -8,6 +8,7 @@
 
 #include "rp2040/command/command_handler.h"
 #include "rp2040/command/command_help.h"
+#include "rp2040/command/command_i2c.h"
 #include "rp2040/command/command_pixel.h"
 
 #include "rp2040/console.h"
@@ -51,6 +52,7 @@ private:
     CommandHandler mHandler;
     CommandHelp mCmdHelp;
     CommandPixel mCmdPixel;
+    CommandI2CDetect mCmdI2CDetect;
 };
 
 #endif // RP2040_APPLICATION_H

@@ -116,7 +116,7 @@ int32_t Command::processParameterMap( cJSON *parameters, cJSON *response
             // The parameter was NOT found
             if( map == requiredMap() ) {
                 // If the parameter map is required, report as an error
-                LOG_DEBUG( "Required parameter missing: %s", parameterName );
+                LOG_DEBUG( "Required parameter missing: %s\n", parameterName );
                 error = Error::PARAM_MISSING;
             }
         } else {
@@ -128,7 +128,7 @@ int32_t Command::processParameterMap( cJSON *parameters, cJSON *response
         if( error ) {
             cJSON_AddNumberToObject( details, "code", error );
             // cJSON_AddStringToObject( details, "type", Error::toString( error ) );
-            // cJSON_AddStringToObject( details, "details", parameterName );
+            cJSON_AddStringToObject( details, "details", parameterName );
         }
 
         cJSON_Delete( parameterData );
@@ -168,7 +168,7 @@ int32_t Command::mutate( cJSON *parameters, cJSON *response, cJSON *details )
         if( error ) {
             cJSON_AddNumberToObject( details, "code", error );
             // cJSON_AddStringToObject( details, "type", Error::toString( error ) );
-            // cJSON_AddStringToObject( details, "details", parameterName );
+            cJSON_AddStringToObject( details, "details", parameterName );
         }
 
         cJSON_Delete( parameterData );
@@ -194,7 +194,7 @@ int32_t Command::access( cJSON *response, cJSON *details )
         if( error ) {
             cJSON_AddNumberToObject( details, "code", error );
             // cJSON_AddStringToObject( details, "type", Error::toString( error ) );
-            // cJSON_AddStringToObject( details, "details", parameterName );
+            cJSON_AddStringToObject( details, "details", parameterName );
         }
     }
 
@@ -209,7 +209,7 @@ int32_t Command::applyName( const char *name )
         strncpy( mName, name, COMMAND_NAME_MAX_SIZE - 1 );
         mName[ COMMAND_NAME_MAX_SIZE - 1 ] = '\0';
     } else {
-        LOG_WARN( "Command name is invalid" );
+        LOG_WARN( "Command name is invalid\n" );
         error = Error::CTRL_OPERATION_FAILED;
     }
 

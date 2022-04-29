@@ -123,6 +123,7 @@ void Application::initializeConsole()
 
     mHandler.addCommand(&mCmdHelp);
     mHandler.addCommand(&mCmdPixel);
+    mHandler.addCommand(&mCmdI2CDetect);
 
     console_set_command_handler(&mHandler);
     multicore_launch_core1(&console_run);

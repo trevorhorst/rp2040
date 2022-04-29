@@ -50,7 +50,7 @@ public:
                 }
 
             } else {
-                LOG_WARN( "Control object is not available" );
+                LOG_WARN( "Control object is not available\n" );
                 error = Error::CMD_FAILED;
                 cJSON_AddNumberToObject( details, "code", error );
                 // cJSON_AddStringToObject( details, "type", Error::toString( error ) );
