@@ -28,6 +28,7 @@ Application::Application()
     )
     , mDisplay(mI2C1, ssd1306_display_addr)
 {
+    srand(time(nullptr));
     initialize();
 }
 
@@ -101,6 +102,10 @@ void Application::initializeDisplay()
         mDisplay.fill_screen(0x00);
         sleep_ms(500);
     }
+
+    // SSD1306::DisplayRam ram;
+    // mDisplay.fill_display_random(ram);
+    // mDisplay.write_buffer(ram);
 
     mDisplay.write_buffer(symbols[static_cast<uint8_t>('H')], 5);
     mDisplay.write_buffer(symbols[static_cast<uint8_t>('e')], 5);

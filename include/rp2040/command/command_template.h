@@ -13,8 +13,8 @@ public:
      * @brief CommandTemplate Constructor
      * @param name Name of the command
      */
-    CommandTemplate( const char *name)
-        : Command( name)
+    CommandTemplate(const char *name)
+        : Command(name)
         , mControlObject( nullptr )
     {
         // if( T::count() == 1 ) {

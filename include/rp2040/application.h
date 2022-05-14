@@ -2,6 +2,7 @@
 #define RP2040_APPLICATION_H
 
 #include <stdio.h>
+#include <time.h>
 
 #include "pico/stdlib.h"
 #include "pico/multicore.h"

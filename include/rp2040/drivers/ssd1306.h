@@ -41,6 +41,9 @@
 class SSD1306
 {
 public:
+    using Page = uint8_t[OLED_WIDTH];
+    using DisplayRam = Page[OLED_PAGE_HEIGHT];
+
     struct RenderArea {
         uint8_t start_col;
         uint8_t end_col;
@@ -56,12 +59,14 @@ public:
     void ignore_ram(bool enable);
     void render(uint8_t *buffer, RenderArea *area);
     void fill_screen(uint8_t buffer);
+    void fill_display_random(DisplayRam &ram);
     void reset_cursor();
 
     static void fill(uint8_t buf[], uint8_t fill);
     static void calc_render_area_buflen(struct RenderArea *area);
     void write_data(const uint8_t *buf, int length);
     void write_buffer(const uint8_t buf[], int buflen);
+    void write_buffer(DisplayRam &ram);
 
 private:
     i2c_inst_t *mBus;

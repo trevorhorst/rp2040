@@ -2,6 +2,7 @@
 #define RP2040_CONTROL_H
 
 #include <vector>
+#include <stdint.h>
 
 class Control
 {
