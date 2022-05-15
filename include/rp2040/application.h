@@ -47,6 +47,7 @@ public:
 
     void printRamBoard(SSD1306::DisplayRam &ram);
     void checkRamBoard(SSD1306::DisplayRam &ram, SSD1306::DisplayRam &newRam, bool debug = false);
+    void checkRamBoardNew(SSD1306::DisplayRam &ram, SSD1306::DisplayRam &newRam, bool debug = false);
 
 private:
     i2c_inst_t *mI2C1;

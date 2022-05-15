@@ -66,11 +66,12 @@ int32_t Application::run()
     uint32_t gen = 0;
     SSD1306::DisplayRamWrite *cur = &ram[0];
     SSD1306::DisplayRamWrite *nxt = &ram[1];
+
     do {
         // mDisplay.reset_cursor();
-        printf("Generation: %d\n", gen++);
+        // printf("Generation: %d\n", gen++);
         // printRamBoard(*cur);
-        checkRamBoard(cur->ram, nxt->ram, true);
+        checkRamBoard(cur->ram, nxt->ram, false);
         // Print the current generation and the board
         mDisplay.write_buffer(*nxt);
         // printRamBoard(*nxt);
@@ -83,7 +84,7 @@ int32_t Application::run()
         mDisplay.fill_display(nxt->ram);
 
         // Sleep so the results are easily viewable
-        sleep_us(250000);
+        // sleep_us(250000);
     } while(true);
 
     return error;
@@ -142,7 +143,7 @@ void Application::initializeConsole()
     mHandler.addCommand(&mCmdI2CDetect);
 
     console_set_command_handler(&mHandler);
-    multicore_launch_core1(&console_run);
+    // multicore_launch_core1(&console_run);
 }
 
 void Application::i2cBusScan(i2c_inst_t *bus)
@@ -194,12 +195,22 @@ void Application::printRamBoard(SSD1306::DisplayRam &ram)
     }
 }
 
+void Application::checkRamBoardNew(SSD1306::DisplayRam &ram, SSD1306::DisplayRam &newRam, bool debug)
+{
+    for(int32_t page = 0; page < OLED_NUM_PAGES; page++) {
+        for(int32_t shift = 0; shift < OLED_PAGE_HEIGHT; shift++) {
+            for(int32_t column = 0; column < OLED_WIDTH; column++) {
+            }
+        }
+    }
+}
+
 void Application::checkRamBoard(SSD1306::DisplayRam &ram, SSD1306::DisplayRam &newRam, bool debug)
 {
     int32_t column_bits = 8;
     for(int32_t page = 0; page < OLED_PAGE_HEIGHT; page++) {
         for(int32_t shift = 0; shift < column_bits; shift++) {
-            int32_t bit = 1 << shift;
+            uint8_t bit = 1 << shift;
             for(int32_t column = 0; column < OLED_WIDTH; column++) {
                 int32_t neighbors = 0;
                 bool leftValid = false;
@@ -277,6 +288,7 @@ void Application::checkRamBoard(SSD1306::DisplayRam &ram, SSD1306::DisplayRam &n
                     }
                 }
 
+                if(debug){ printf("%d", neighbors); }
                 if(neighbors == 2) {
                     // Cell survives
                     newRam[page][column] |= (ram[page][column] & bit);
@@ -287,7 +299,7 @@ void Application::checkRamBoard(SSD1306::DisplayRam &ram, SSD1306::DisplayRam &n
                     // Cell dies
                     newRam[page][column] &= ~bit;
                 }
-                if(debug){ printf("%d ", neighbors); }
+                if(debug){ printf("."); }
             }
             if(debug){ printf("\n"); }
         }
