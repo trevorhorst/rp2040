@@ -35,6 +35,7 @@ add_executable(
     ${RP2040_INCLUDE_DIR}/console.h
     ${RP2040_INCLUDE_DIR}/command/command.h
     # ${RP2040_INCLUDE_DIR}/command/command_font.h
+    ${RP2040_INCLUDE_DIR}/command/command_game.h
     ${RP2040_INCLUDE_DIR}/command/command_handler.h
     ${RP2040_INCLUDE_DIR}/command/command_help.h
     ${RP2040_INCLUDE_DIR}/command/command_i2c.h
@@ -53,6 +54,7 @@ add_executable(
     ${RP2040_SOURCE_DIR}/application.cpp
     ${RP2040_SOURCE_DIR}/console.cpp
     # ${RP2040_SOURCE_DIR}/command/command_font.cpp
+    ${RP2040_SOURCE_DIR}/command/command_game.cpp
     ${RP2040_SOURCE_DIR}/command/command_handler.cpp
     ${RP2040_SOURCE_DIR}/command/command_help.cpp
     ${RP2040_SOURCE_DIR}/command/command_i2c.cpp

@@ -45,9 +45,9 @@ public:
     using DisplayRam = Page[OLED_PAGE_HEIGHT];
 
     struct DisplayRamWrite {
-        uint32_t address;
+        uint8_t address;
         DisplayRam ram;
-    } DisplayRamWrite;
+    };
 
     struct RenderArea {
         uint8_t start_col;
@@ -72,7 +72,7 @@ public:
     static void calc_render_area_buflen(struct RenderArea *area);
     void write_data(const uint8_t *buf, int length);
     void write_buffer(const uint8_t buf[], int buflen);
-    void write_buffer(DisplayRam &ram);
+    void write_buffer(DisplayRamWrite &ram);
 
 private:
     i2c_inst_t *mBus;

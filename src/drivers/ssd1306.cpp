@@ -51,7 +51,7 @@ void SSD1306::write_buffer(const uint8_t buffer[], int bufferLen)
     free(temp_buf);
 }
 
-void SSD1306::write_buffer(DisplayRam &ram)
+void SSD1306::write_buffer(DisplayRamWrite &ram)
 {
     uint8_t *temp_buf = (uint8_t*)(&ram);
     // for(uint32_t page = 0; page < OLED_PAGE_HEIGHT; page++) {
@@ -61,7 +61,7 @@ void SSD1306::write_buffer(DisplayRam &ram)
     //     }
     // }
     temp_buf[0] = 0x40;
-    i2c_write_blocking(mBus, (mAddress & OLED_WRITE_MODE), temp_buf, sizeof(DisplayRam) + 1, false);
+    i2c_write_blocking(mBus, (mAddress & OLED_WRITE_MODE), temp_buf, sizeof(DisplayRamWrite), false);
 
     // free(temp_buf);
 }

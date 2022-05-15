@@ -56,31 +56,31 @@ int32_t Application::run()
     //     sleep_ms(heartbeat_ms / neopixel_max_brightness);
     // }
 
-    SSD1306::DisplayRam ram[2];
+    SSD1306::DisplayRamWrite ram[2];
     printf("filling display\n");
-    mDisplay.fill_display_random(ram[0]);
+    mDisplay.fill_display_random(ram[0].ram);
     printf("writing display\n");
     mDisplay.write_buffer(ram[0]);
-    printRamBoard(ram[0]);
+    printRamBoard(ram[0].ram);
 
     uint32_t gen = 0;
-    SSD1306::DisplayRam *cur = &ram[0];
-    SSD1306::DisplayRam *nxt = &ram[1];
+    SSD1306::DisplayRamWrite *cur = &ram[0];
+    SSD1306::DisplayRamWrite *nxt = &ram[1];
     do {
         // mDisplay.reset_cursor();
         printf("Generation: %d\n", gen++);
         // printRamBoard(*cur);
-        checkRamBoard(*cur, *nxt);
+        checkRamBoard(cur->ram, nxt->ram, true);
         // Print the current generation and the board
         mDisplay.write_buffer(*nxt);
         // printRamBoard(*nxt);
 
         // Next board becomes the current and the current becomes the container for
         // our next generation
-        SSD1306::DisplayRam *temp = cur;
+        SSD1306::DisplayRamWrite *temp = cur;
         cur = nxt;
         nxt = temp;
-        mDisplay.fill_display(*nxt);
+        mDisplay.fill_display(nxt->ram);
 
         // Sleep so the results are easily viewable
         sleep_us(250000);
