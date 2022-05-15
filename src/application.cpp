@@ -61,7 +61,6 @@ int32_t Application::run()
     mDisplay.fill_display_random(ram[0].ram);
     printf("writing display\n");
     mDisplay.write_buffer(ram[0]);
-    printRamBoard(ram[0].ram);
 
     uint32_t gen = 0;
     SSD1306::DisplayRamWrite *cur = &ram[0];
