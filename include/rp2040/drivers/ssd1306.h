@@ -44,6 +44,11 @@ public:
     using Page = uint8_t[OLED_WIDTH];
     using DisplayRam = Page[OLED_PAGE_HEIGHT];
 
+    struct DisplayRamWrite {
+        uint32_t address;
+        DisplayRam ram;
+    } DisplayRamWrite;
+
     struct RenderArea {
         uint8_t start_col;
         uint8_t end_col;
@@ -59,6 +64,7 @@ public:
     void ignore_ram(bool enable);
     void render(uint8_t *buffer, RenderArea *area);
     void fill_screen(uint8_t buffer);
+    void fill_display(DisplayRam &ram);
     void fill_display_random(DisplayRam &ram);
     void reset_cursor();
 

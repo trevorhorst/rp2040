@@ -15,7 +15,7 @@
 #include "rp2040/console.h"
 #include "rp2040/drivers/ws2812.h"
 #include "rp2040/drivers/ssd1306.h"
-#include "rp2040/font/font.h"
+// #include "rp2040/font/font.h"
 #include "rp2040/logger.h"
 
 class Application
@@ -44,6 +44,9 @@ public:
     }
 
     void i2cBusScan(i2c_inst_t *bus);
+
+    void printRamBoard(SSD1306::DisplayRam &ram);
+    void checkRamBoard(SSD1306::DisplayRam &ram, SSD1306::DisplayRam &newRam, bool debug = false);
 
 private:
     i2c_inst_t *mI2C1;

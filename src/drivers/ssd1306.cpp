@@ -53,17 +53,17 @@ void SSD1306::write_buffer(const uint8_t buffer[], int bufferLen)
 
 void SSD1306::write_buffer(DisplayRam &ram)
 {
-    uint8_t *temp_buf = (uint8_t*)malloc(sizeof(DisplayRam) + 1);
-    for(uint32_t page = 0; page < OLED_PAGE_HEIGHT; page++) {
-        for(uint32_t column = 0; OLED_WIDTH; column++) {
-            uint8_t i = (page * OLED_WIDTH) + column;
-            temp_buf[i] = ram[page][column];
-        }
-    }
+    uint8_t *temp_buf = (uint8_t*)(&ram);
+    // for(uint32_t page = 0; page < OLED_PAGE_HEIGHT; page++) {
+    //     for(uint32_t column = 0; OLED_WIDTH; column++) {
+    //         uint8_t i = (page * OLED_WIDTH) + column;
+    //         temp_buf[i] = ram[page][column];
+    //     }
+    // }
     temp_buf[0] = 0x40;
     i2c_write_blocking(mBus, (mAddress & OLED_WRITE_MODE), temp_buf, sizeof(DisplayRam) + 1, false);
 
-    free(temp_buf);
+    // free(temp_buf);
 }
 
 void SSD1306::initialize()
@@ -163,6 +163,15 @@ void SSD1306::fill_screen(uint8_t buffer)
     uint8_t buf[OLED_BUF_LEN];
     fill(buf, buffer);
     render(buf, &frame_area);
+}
+
+void SSD1306::fill_display(DisplayRam &ram)
+{
+    for(uint32_t page = 0; page < OLED_PAGE_HEIGHT; page++) {
+        for(uint32_t column = 0; column < OLED_WIDTH; column++) {
+            ram[page][column] = 0;
+        }
+    }
 }
 
 void SSD1306::fill_display_random(DisplayRam &ram)

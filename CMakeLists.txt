@@ -34,7 +34,7 @@ add_executable(
     ${RP2040_INCLUDE_DIR}/application.h
     ${RP2040_INCLUDE_DIR}/console.h
     ${RP2040_INCLUDE_DIR}/command/command.h
-    ${RP2040_INCLUDE_DIR}/command/command_font.h
+    # ${RP2040_INCLUDE_DIR}/command/command_font.h
     ${RP2040_INCLUDE_DIR}/command/command_handler.h
     ${RP2040_INCLUDE_DIR}/command/command_help.h
     ${RP2040_INCLUDE_DIR}/command/command_i2c.h
@@ -45,14 +45,14 @@ add_executable(
     ${RP2040_INCLUDE_DIR}/drivers/i2c.h
     ${RP2040_INCLUDE_DIR}/drivers/ssd1306.h
     ${RP2040_INCLUDE_DIR}/drivers/ws2812.h
-    ${RP2040_INCLUDE_DIR}/font/font.h
+    # ${RP2040_INCLUDE_DIR}/font/font.h
     ${RP2040_INCLUDE_DIR}/json/cjson.h
     ${RP2040_INCLUDE_DIR}/logger.h
     ${RP2040_INCLUDE_DIR}/types.h
 
     ${RP2040_SOURCE_DIR}/application.cpp
     ${RP2040_SOURCE_DIR}/console.cpp
-    ${RP2040_SOURCE_DIR}/command/command_font.cpp
+    # ${RP2040_SOURCE_DIR}/command/command_font.cpp
     ${RP2040_SOURCE_DIR}/command/command_handler.cpp
     ${RP2040_SOURCE_DIR}/command/command_help.cpp
     ${RP2040_SOURCE_DIR}/command/command_i2c.cpp
@@ -62,7 +62,7 @@ add_executable(
     ${RP2040_SOURCE_DIR}/drivers/i2c.cpp
     ${RP2040_SOURCE_DIR}/drivers/ssd1306.cpp
     ${RP2040_SOURCE_DIR}/drivers/ws2812.cpp
-    ${RP2040_SOURCE_DIR}/font/font.cpp
+    # ${RP2040_SOURCE_DIR}/font/font.cpp
     ${RP2040_SOURCE_DIR}/json/cjson.cpp
     ${RP2040_SOURCE_DIR}/logger.cpp
     ${RP2040_SOURCE_DIR}/types.cpp
