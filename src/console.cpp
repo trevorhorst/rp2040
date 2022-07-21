@@ -94,7 +94,6 @@ void console_evaluate(char *input, const size_t &length)
         // The command is to quit, so lets quit. Nothing fancy here.
         // console->quit();
     } else {
-
         // Add the cmd string to the object
         cJSON *msg    = cJSON_CreateObject();
         cJSON *params = cJSON_CreateObject();
@@ -179,37 +178,38 @@ void console_run()
     while(true) {
         int input = getchar_timeout_us(50);
         if(input == PICO_ERROR_TIMEOUT) {
-            // This is okay, just loop back around
-        } else if(input == '\x1b' || sequence == true) {
-            if(sequenceCount >= 2) {
-                // LOG_TRACE("Arrow Key\n");
-                sequence = false;
-                sequenceCount = 0;
-            } else {
-                sequence = true;
-                sequenceCount++;
-            }
-        } else if(input == '\r') {
-            // Evaluate the input string
-            printf("\r>%s\n", console_input);
-            console_input[console_input_count] = 0;
-            console_evaluate(console_input, sizeof(console_input));
-            // Once the input has been handled, flush the container
-            console_flush_input();
-            printf(">");
-        } else if(input == '\b') {
-            // LOG_TRACE("Received: 0x%02X\n", input);
-            if(console_input_count > 0) {
-                console_input_count--;
-                console_input[console_input_count] = '\0';
-            }
-            printf("\r>%s ", console_input);
-            printf("\r>%s", console_input);
+        //     // This is okay, just loop back around
+        // } else if(input == '\x1b' || sequence == true) {
+        //     if(sequenceCount >= 2) {
+        //         // LOG_TRACE("Arrow Key\n");
+        //         sequence = false;
+        //         sequenceCount = 0;
+        //     } else {
+        //         sequence = true;
+        //         sequenceCount++;
+        //     }
+        // } else if(input == '\r') {
+        //     // Evaluate the input string
+        //     printf("\r>%s\n", console_input);
+        //     console_input[console_input_count] = 0;
+        //     // console_evaluate(console_input, sizeof(console_input));
+        //     // Once the input has been handled, flush the container
+        //     console_flush_input();
+        //     printf(">");
+        // } else if(input == '\b') {
+        //     // LOG_TRACE("Received: 0x%02X\n", input);
+        //     if(console_input_count > 0) {
+        //         console_input_count--;
+        //         console_input[console_input_count] = '\0';
+        //     }
+        //     printf("\r>%s ", console_input);
+        //     printf("\r>%s", console_input);
         } else {
-            // LOG_TRACE("Received: 0x%02X\n", input);
-            console_input[console_input_count] = input;
-            console_input_count++;
-            printf("\r>%s", console_input);
+            printf("%c\n", static_cast<uint8_t>(input));
+            // // LOG_TRACE("Received: 0x%02X\n", input);
+            // console_input[console_input_count] = input;
+            // console_input_count++;
+            // printf("\r>%s", console_input);
         }
     }
 }

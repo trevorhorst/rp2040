@@ -42,6 +42,7 @@ add_executable(
     ${RP2040_INCLUDE_DIR}/command/command_pixel.h
     ${RP2040_INCLUDE_DIR}/command/command_template.h
     ${RP2040_INCLUDE_DIR}/control/control.h
+    ${RP2040_INCLUDE_DIR}/control/control_game.h
     ${RP2040_INCLUDE_DIR}/control/control_template.h
     ${RP2040_INCLUDE_DIR}/drivers/i2c.h
     ${RP2040_INCLUDE_DIR}/drivers/ssd1306.h
@@ -61,6 +62,7 @@ add_executable(
     ${RP2040_SOURCE_DIR}/command/command_pixel.cpp
     ${RP2040_SOURCE_DIR}/command/command.cpp
     ${RP2040_SOURCE_DIR}/control/control.cpp
+    ${RP2040_SOURCE_DIR}/control/control_game.cpp
     ${RP2040_SOURCE_DIR}/drivers/i2c.cpp
     ${RP2040_SOURCE_DIR}/drivers/ssd1306.cpp
     ${RP2040_SOURCE_DIR}/drivers/ws2812.cpp
@@ -88,6 +90,7 @@ target_link_libraries(
         pico_stdlib
         pico_multicore
         # pico_binary_info
+        hardware_irq
         hardware_pio
         hardware_i2c
 )

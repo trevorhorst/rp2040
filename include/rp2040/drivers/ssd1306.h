@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "pico/mutex.h"
 #include "hardware/i2c.h"
 
 // commands (see datasheet)
@@ -75,6 +76,7 @@ public:
     void write_buffer(DisplayRamWrite &ram);
 
 private:
+    mutex_t *mMutex;
     i2c_inst_t *mBus;
     uint8_t mAddress;
 

@@ -17,9 +17,11 @@ void SSD1306::calc_render_area_buflen(struct RenderArea *area)
  * @brief Construct a new SSD1306 object
  */
 SSD1306::SSD1306(i2c_inst_t *bus, uint8_t address) :
+    mMutex(nullptr),
     mBus(bus),
     mAddress(address)
 {
+    mutex_init(mMutex);
 }
 
 void SSD1306::write(uint8_t data)

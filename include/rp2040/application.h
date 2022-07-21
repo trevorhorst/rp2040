@@ -6,6 +6,10 @@
 
 #include "pico/stdlib.h"
 #include "pico/multicore.h"
+#include "pico/mutex.h"
+#include "hardware/gpio.h"
+
+#include "rp2040/control/control_game.h"
 
 #include "rp2040/command/command_handler.h"
 #include "rp2040/command/command_help.h"
@@ -50,6 +54,7 @@ public:
     void checkRamBoardNew(SSD1306::DisplayRam &ram, SSD1306::DisplayRam &newRam, bool debug = false);
 
 private:
+    mutex_t mMutex;
     i2c_inst_t *mI2C1;
     WS2812 mNeopixel;
     SSD1306 mDisplay;
@@ -58,6 +63,7 @@ private:
     CommandHelp mCmdHelp;
     CommandPixel mCmdPixel;
     CommandI2CDetect mCmdI2CDetect;
+
 };
 
 #endif // RP2040_APPLICATION_H

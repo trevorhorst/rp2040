@@ -13,6 +13,32 @@ const uint8_t Application::ssd1306_display_addr = 0x3D;
 
 #define I2C_BUS_SPEED_KHZ(x) x * 1000
 
+// Debounce control
+static uint32_t debounce_reset_button = to_ms_since_boot(get_absolute_time());
+static uint32_t debounce_speed_button = to_ms_since_boot(get_absolute_time());
+static const uint32_t debounce_delay_time = 500; // Delay for every push button may vary
+
+void gpio_callback(uint gpio, uint32_t events) {
+    // Put the GPIO event(s) that just happened into event_str
+    // so we can print it
+    // gpio_event_string(event_str, events);
+    printf("GPIO Reset Event: %d\n", gpio);
+    uint32_t currentTime = to_ms_since_boot(get_absolute_time());
+
+    if(gpio == 2) {
+        if((currentTime - debounce_reset_button) > debounce_delay_time) {
+            debounce_reset_button = currentTime;
+            conwaysSetReset();
+        }
+    } else if(gpio == 3) {
+        if((currentTime - debounce_speed_button) > debounce_delay_time) {
+            debounce_speed_button = currentTime;
+            conwaysStepSpeed();
+        }
+    }
+
+}
+
 /**
  * @brief Construct a new Application:: Application object
  * 
@@ -29,6 +55,9 @@ Application::Application()
     , mDisplay(mI2C1, ssd1306_display_addr)
 {
     srand(time(nullptr));
+    // gpio_set_irq_enabled_with_callback(2, GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL, true, &gpio_callback);
+    gpio_set_irq_enabled_with_callback(2, GPIO_IRQ_EDGE_RISE, true, &gpio_callback);
+    gpio_set_irq_enabled_with_callback(3, GPIO_IRQ_EDGE_RISE, true, &gpio_callback);
     initialize();
 }
 
@@ -41,6 +70,10 @@ int32_t Application::run()
 {
     int32_t error = 0;
 
+    conwaysSetDisplay(&mDisplay);
+    conwaysRun();
+    // multicore_launch_core1(conwaysRun);
+
     // int count = 0;
     // int incrementer = 0;
     // while(true) {
@@ -51,40 +84,41 @@ int32_t Application::run()
     //         incrementer = -1;
     //     }
 
-    //     // mNeopixel.fill(WS2812::RGB(0, count, 0));
-    //     // mNeopixel.show();
+    //     mNeopixel.fill(WS2812::RGB(0, count, 0));
+    //     mNeopixel.show();
     //     sleep_ms(heartbeat_ms / neopixel_max_brightness);
     // }
 
-    SSD1306::DisplayRamWrite ram[2];
-    printf("filling display\n");
-    mDisplay.fill_display_random(ram[0].ram);
-    printf("writing display\n");
-    mDisplay.write_buffer(ram[0]);
+    // SSD1306::DisplayRamWrite ram[2];
+    // printf("filling display\n");
+    // mDisplay.fill_display_random(ram[0].ram);
+    // printf("writing display\n");
+    // mDisplay.write_buffer(ram[0]);
 
-    uint32_t gen = 0;
-    SSD1306::DisplayRamWrite *cur = &ram[0];
-    SSD1306::DisplayRamWrite *nxt = &ram[1];
+    // uint32_t gen = 0;
+    // SSD1306::DisplayRamWrite *cur = &ram[0];
+    // SSD1306::DisplayRamWrite *nxt = &ram[1];
 
-    do {
-        // mDisplay.reset_cursor();
-        // printf("Generation: %d\n", gen++);
-        // printRamBoard(*cur);
-        checkRamBoard(cur->ram, nxt->ram, false);
-        // Print the current generation and the board
-        mDisplay.write_buffer(*nxt);
-        // printRamBoard(*nxt);
+    // do {
+    //     // mDisplay.reset_cursor();
+    //     // printf("Generation: %d\n", gen++);
+    //     // printRamBoard(*cur);
+    //     checkRamBoard(cur->ram, nxt->ram, false);
+    //     // Print the current generation and the board
+    //     mDisplay.write_buffer(*nxt);
+    //     // printRamBoard(*nxt);
 
-        // Next board becomes the current and the current becomes the container for
-        // our next generation
-        SSD1306::DisplayRamWrite *temp = cur;
-        cur = nxt;
-        nxt = temp;
-        mDisplay.fill_display(nxt->ram);
+    //     // Next board becomes the current and the current becomes the container for
+    //     // our next generation
+    //     SSD1306::DisplayRamWrite *temp = cur;
+    //     cur = nxt;
+    //     nxt = temp;
+    //     mDisplay.fill_display(nxt->ram);
 
-        // Sleep so the results are easily viewable
-        // sleep_us(250000);
-    } while(true);
+    //     // Sleep so the results are easily viewable
+    //     // sleep_us(250000);
+    // } while(true);
+    // console_run();
 
     return error;
 }
